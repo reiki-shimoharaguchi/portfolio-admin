@@ -4,13 +4,11 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>skill-upload</title>
+	<title>SKILL UPLOAD</title>
 </head>
 <body>
 
-<h1>
-	skill upload!
-</h1>
+<h1>Skill Upload!</h1>
 
 </body>
 </html>
