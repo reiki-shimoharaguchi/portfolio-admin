@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -91,10 +91,11 @@ public class SkillController {
     DatabaseReference ref = database.getReference("skills");
 
     // Map型のリストを作る。MapはStringで聞かれたものに対し、Object型で返すようにしている
-    List<Map<String, Object>> dataList = new LinkedList<Map<String, Object>>();
+
     Map<String, Object> dataMap;
     Map<String, List<SkillCategory>> skillMap = categories.stream()
         .collect(Collectors.groupingBy(SkillCategory::getCategory));
+    List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>(skillMap.size());
     //				for (SkillCategory skills : categories) {
     for (Map.Entry<String, List<SkillCategory>> entry : skillMap.entrySet()) {
       //					dataMap = new HashMap<>();
@@ -107,15 +108,19 @@ public class SkillController {
       dataMap = new HashMap<>();
       dataMap.put("category", entry.getKey());
       dataMap.put("SKILL", entry.getValue());
-      //      switch ("category") {
-      //      case "Front-end":
-      //        dataList.add(0, dataMap);
-      //      case "Back-end":
-      //        dataList.add(1, dataMap);
-      //      case "DevOps":
-      //        dataList.add(2, dataMap);
-      //      }
-      dataList.add(0, dataMap);
+      switch (entry.getKey()) {
+      case "Front-end":
+        dataList.add(0, dataMap);
+        break;
+      case "Back-end":
+        dataList.add(1, dataMap);
+        break;
+      case "DevOps":
+        dataList.add(2, dataMap);
+        break;
+      }
+      //      dataList.add(0, dataMap);
+      //      System.out.print("Test");
     }
     ref.setValue(dataList, new DatabaseReference.CompletionListener() {
       @Override
