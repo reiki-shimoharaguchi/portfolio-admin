@@ -97,31 +97,34 @@ public class SkillController {
         .collect(Collectors.groupingBy(SkillCategory::getCategory));
     List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>(skillMap.size());
     //				for (SkillCategory skills : categories) {
-    for (Map.Entry<String, List<SkillCategory>> entry : skillMap.entrySet()) {
-      //					dataMap = new HashMap<>();
-      //					dataMap.put("id" , skills.getId());
-      //					dataMap.put("category" , skills.getCategory());
-      //					dataMap.put("name" , skills.getName());
-      //					dataMap.put("label" , skills.getLabel());
-      //					dataMap.put("score" , skills.getScore());
-      //					dataList.add(dataMap);
+    //    for (Map.Entry<String, List<SkillCategory>> entry : skillMap.entrySet()) {
+    //					dataMap = new HashMap<>();
+    //					dataMap.put("id" , skills.getId());
+    //					dataMap.put("category" , skills.getCategory());
+    //					dataMap.put("name" , skills.getName());
+    //					dataMap.put("label" , skills.getLabel());
+    //					dataMap.put("score" , skills.getScore());
+    //					dataList.add(dataMap);
+    String[] categories2 = { "Front-end", "Back-end", "DevOps" };
+    for (String categ : categories2) {
       dataMap = new HashMap<>();
-      dataMap.put("category", entry.getKey());
-      dataMap.put("SKILL", entry.getValue());
-      switch (entry.getKey()) {
-      case "Front-end":
-        dataList.add(0, dataMap);
-        break;
-      case "Back-end":
-        dataList.add(1, dataMap);
-        break;
-      case "DevOps":
-        dataList.add(2, dataMap);
-        break;
-      }
-      //      dataList.add(0, dataMap);
-      //      System.out.print("Test");
+      dataMap.put("category", categ);
+      dataMap.put("SKILL", skillMap.get(categ));
+      dataList.add(dataMap);
+      //      switch (entry.getKey()) {
+      //      case "Front-end":
+      //        dataList.add(0, dataMap);
+      //        break;
+      //      case "Back-end":
+      //        dataList.add(1, dataMap);
+      //        break;
+      //      case "DevOps":
+      //        dataList.add(2, dataMap);
+      //        break;
     }
+    //      dataList.add(0, dataMap);
+    //      System.out.print("Test");
+
     ref.setValue(dataList, new DatabaseReference.CompletionListener() {
       @Override
       public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
